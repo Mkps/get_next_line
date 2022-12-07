@@ -6,7 +6,7 @@
 /*   By: aloubier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 10:48:55 by aloubier          #+#    #+#             */
-/*   Updated: 2022/12/07 13:05:11 by aloubier         ###   ########.fr       */
+/*   Updated: 2022/12/07 13:54:19 by aloubier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,19 @@ char	*ft_getleftover(char *buffer)
 
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
-		i++;
+		++i;
 	if (!buffer[i])
 	{
 		free(buffer);
 		return (NULL);
 	}
-	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof (*line));
-	i++;
+	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof (char));
+	++i;
 	j = 0;
-	while (buffer[i])
+	while (buffer[i + j])
 	{
-		line[j] = buffer[i];
-		i++;
-		j++;
+		line[j] = buffer[i + j];
+		++j;
 	}
 	free(buffer);
 	return (line);
@@ -60,18 +59,17 @@ char	*ft_getline(char *buffer)
 	if (!buffer[i])
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
-		i++;
-	if (!buffer[i])
-		line = ft_calloc(i + 1, sizeof (*line));
-	else
-		line = ft_calloc(i + 2, sizeof (*line));
+		++i;
+	line = ft_calloc(i + 2, sizeof (char));
+	line[i] = 0;
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 	{
 		line[i] = buffer[i];
-		i++;
+		++i;
 	}
-	if (buffer[i] && buffer[i] == '\n')
+	//Removed eof condition buffer[i]
+	if (buffer[i] == '\n')
 		line[i++] = '\n';
 	return (line);
 }
@@ -83,7 +81,7 @@ char	*read_file(int fd, char *str)
 
 	if (!str)
 		str = ft_calloc(1, 1);
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof (*buffer));
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof (char));
 	byte_read = 1;
 	while (byte_read > 0)
 	{
