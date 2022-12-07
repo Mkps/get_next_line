@@ -1,12 +1,12 @@
 #include "get_next_line.h"
 
-char	*ft_addstr(char *buffer, char *buf)
+char	*ft_addstr(char *buffer, char *str)
 {
-	char	*temp;
+	char	*tmp;
 
-	temp = ft_strjoin(buffer, buf);
+	tmp = ft_strjoin(buffer, str);
 	free(buffer);
-	return (temp);
+	return (tmp);
 }
 
 char	*ft_getleftover(char *buffer)
