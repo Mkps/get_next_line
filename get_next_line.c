@@ -1,4 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aloubier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/07 10:48:55 by aloubier          #+#    #+#             */
+/*   Updated: 2022/12/07 13:05:11 by aloubier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 4096
+#endif
 
 char	*ft_addstr(char *buffer, char *str)
 {
@@ -26,8 +41,12 @@ char	*ft_getleftover(char *buffer)
 	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof (*line));
 	i++;
 	j = 0;
-	while (buffer[j++])
-		line[j] = buffer[i + j];
+	while (buffer[i])
+	{
+		line[j] = buffer[i];
+		i++;
+		j++;
+	}
 	free(buffer);
 	return (line);
 }
@@ -43,9 +62,9 @@ char	*ft_getline(char *buffer)
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
 	if (!buffer[i])
-		line = ft_calloc(i + 2, sizeof (*line));
+		line = ft_calloc(i + 1, sizeof (*line));
 	else
-		line - ft_calloc(i + 1, sizeof (*line));
+		line = ft_calloc(i + 2, sizeof (*line));
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 	{
@@ -60,13 +79,13 @@ char	*ft_getline(char *buffer)
 char	*read_file(int fd, char *str)
 {
 	char	*buffer;
-	size_t	byte_read;
+	int		byte_read;
 
 	if (!str)
 		str = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof (*buffer));
 	byte_read = 1;
-	while (byte_read > 0 && ft_strchr(buffer, '\n'))
+	while (byte_read > 0)
 	{
 		byte_read = read(fd, buffer, BUFFER_SIZE);
 		if (byte_read == -1)
@@ -75,7 +94,9 @@ char	*read_file(int fd, char *str)
 			return (NULL);
 		}
 		buffer[byte_read] = 0;
-		str = ft_free(str, buffer);
+		str = ft_addstr(str, buffer);
+		if (ft_strchr(buffer, '\n'))
+			break ;
 	}
 	free(buffer);
 	return (str);
@@ -95,3 +116,20 @@ char	*get_next_line(int fd)
 	buffer = ft_getleftover(buffer);
 	return (line);
 }
+/*
+int	main(int argc, char **argv)
+{
+	if (argc >= 2)
+	{
+		int	fd;
+		int	i;
+
+		i = 10;
+		fd = open(argv[1], "r");
+		while (--i)
+		{
+			printf("%i%s", i, get_next_line(fd));
+		}
+	}
+}
+*/

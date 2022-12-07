@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aloubier <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/07 10:49:16 by aloubier          #+#    #+#             */
+/*   Updated: 2022/12/07 10:54:26 by aloubier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 char	*ft_strchr(const char *str, int c)
@@ -6,7 +18,6 @@ char	*ft_strchr(const char *str, int c)
 	{
 		if ((unsigned char)*str == (unsigned char)c)
 			return ((char *)str);
-
 		str++;
 	}
 	if (c == 0)
@@ -19,21 +30,21 @@ void	ft_bzero(void *s, size_t n)
 	size_t	i;
 
 	if (!s)
-		return;
+		return ;
 	i = 0;
 	while (i < n)
 	{
-		*(char *)(s+i) = 0;
+		*(char *)(s + i) = 0;
 		i++;
 	}
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*ret;
-	int	ret_len;
+	int		ret_len;
 
 	ret_len = ft_strlen(s1) + ft_strlen(s2);
 	ret = malloc((ret_len + 1) * sizeof (char));
@@ -55,15 +66,14 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (ret);
 }
 
-static int	ft_checkoverflow_int(int n1, int n2)
+size_t	ft_strlen(const char *str)
 {
-	long long	result;
+	size_t	length;
 
-	result = n1 * n2;
-	if (n1 == result / n2)
-		return (0);
-	else
-		return (1);
+	length = 0;
+	while (*str++)
+		++length;
+	return (length);
 }
 
 void	*ft_calloc(size_t nmemb, size_t size)
