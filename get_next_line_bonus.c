@@ -84,6 +84,8 @@ char	*read_file(int fd, char *str)
 	if (!str)
 		str = ft_calloc(1, 1);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof (char));
+	if (!buffer)
+		return (NULL);
 	byte_read = 1;
 	while (byte_read > 0)
 	{
