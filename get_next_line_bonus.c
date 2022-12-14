@@ -42,6 +42,8 @@ char	*ft_getleftover(char *buffer)
 		return (NULL);
 	}
 	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof (char));
+	if (!line)
+		return (NULL);
 	++i;
 	j = 0;
 	while (buffer[i + j])
@@ -64,6 +66,8 @@ char	*ft_getline(char *buffer)
 	while (buffer[i] && buffer[i] != '\n')
 		++i;
 	line = ft_calloc(i + 2, sizeof (char));
+	if (!line)
+		return (NULL);
 	line[i] = 0;
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
