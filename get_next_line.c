@@ -6,7 +6,7 @@
 /*   By: aloubier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 10:48:55 by aloubier          #+#    #+#             */
-/*   Updated: 2022/12/15 16:39:31 by aloubier         ###   ########.fr       */
+/*   Updated: 2023/04/21 21:17:50 by aloubier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*read_file(int fd, char *str)
 
 	if (!str)
 		str = ft_calloc(1, 1);
-	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof (char));
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof (char));
 	if (!buffer)
 		return (NULL);
 	byte_read = 1;
@@ -91,6 +91,7 @@ char	*read_file(int fd, char *str)
 		byte_read = read(fd, buffer, BUFFER_SIZE);
 		if (byte_read == -1)
 		{
+			free(str);
 			free(buffer);
 			return (NULL);
 		}
@@ -108,7 +109,7 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = read_file(fd, buffer);
 	if (!buffer)

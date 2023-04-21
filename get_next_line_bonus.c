@@ -6,7 +6,7 @@
 /*   By: aloubier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 10:48:55 by aloubier          #+#    #+#             */
-/*   Updated: 2022/12/14 15:54:13 by aloubier         ###   ########.fr       */
+/*   Updated: 2023/04/21 21:19:15 by aloubier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ char	*read_file(int fd, char *str)
 		byte_read = read(fd, buffer, BUFFER_SIZE);
 		if (byte_read == -1)
 		{
+			free(str);
 			free(buffer);
 			return (NULL);
 		}
@@ -113,7 +114,7 @@ char	*get_next_line(int fd)
 	static char	*buffer[FD_MAX];
 	char		*line;
 
-	if (fd < 0 || fd > FD_MAX || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || fd > FD_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer[fd] = read_file(fd, buffer[fd]);
 	if (!buffer[fd])
